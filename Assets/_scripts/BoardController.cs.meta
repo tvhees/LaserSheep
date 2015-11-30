@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 2dcb7d5196cd7c043aa8ebb1b58c694c
+timeCreated: 1447845087
+licenseType: Free
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences:
+  - blueSheep: {fileID: 190638, guid: 0ef8ebb4bab2253439338917e21d8c79, type: 2}
+  - redSheep: {fileID: 179758, guid: 1d56b01680f8018459f3f1789515cc4a, type: 2}
+  - laser: {fileID: 183426, guid: 97507387619414c4581d80066e439820, type: 2}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
