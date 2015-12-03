@@ -1,0 +1,15 @@
+﻿<Properties>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/_scripts/LaserController.cs">
+    <Files>
+      <File FileName="Assets/_scripts/MovingObject.cs" Line="30" Column="10" />
+      <File FileName="Assets/_scripts/SheepController.cs" Line="7" Column="1" />
+      <File FileName="Assets/_scripts/LaserController.cs" Line="6" Column="38" />
+      <File FileName="Assets/_scripts/GameController.cs" Line="314" Column="40" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>
