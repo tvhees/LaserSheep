@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 public class GameController : MonoBehaviour {
 
-    public BoardController boardScript;
+	public GameObject boardManager;
 	public GameObject slot;
 	public List<GameObject> cardSlots;
 	public GameObject leftCard;
@@ -29,6 +29,8 @@ public class GameController : MonoBehaviour {
     public Text gameEndText;
     public GameObject gameButtons;
 
+	private GameObject boardHolder;
+	private BoardController boardScript;
     private string[] sheepColours = new string[2]{"RedSheep", "BlueSheep"};
 	private GameObject newObject;
 	private bool addCard;
@@ -43,8 +45,14 @@ public class GameController : MonoBehaviour {
     private int blueScore;
 
 	void Awake() {
+		// Making sure there's no existing board
+		if (boardHolder != null)
+			Destroy (boardHolder);
+
+		boardHolder = Instantiate (boardManager);
+
 		// Finding script that controls dynamic components - sheep + lasers
-		boardScript = GetComponent<BoardController>();
+		boardScript = boardHolder.GetComponent<BoardController>();
 
 		// Adding action queue slots to a list in order of resolution
         // --> Single Gameobject with children
@@ -249,16 +257,16 @@ public class GameController : MonoBehaviour {
         // This could be fed GameObjects directly
 		switch (orientation) {
 		case "BOTTOM":
-			boardScript.PlaceObject(laser, 3, 8, 1, 1, numberLasers, false, "BOTTOM");
+			boardScript.PlaceObject(laser, 3, 8, 1, 1, numberLasers, false, "BOTTOM", boardScript.waitLasers);
 			break;
 		case "TOP":
-			boardScript.PlaceObject(laser, 3, 8, 10, 10, numberLasers, false, "TOP");
+			boardScript.PlaceObject(laser, 3, 8, 10, 10, numberLasers, false, "TOP", boardScript.waitLasers);
 			break;
 		case "LEFT":
-			boardScript.PlaceObject(laser, 1, 1, 3, 8, numberLasers, false, "LEFT");
+			boardScript.PlaceObject(laser, 1, 1, 3, 8, numberLasers, false, "LEFT", boardScript.waitLasers);
 			break;
 		case "RIGHT":
-			boardScript.PlaceObject(laser, 10, 10, 3, 8, numberLasers, false, "RIGHT");
+			boardScript.PlaceObject(laser, 10, 10, 3, 8, numberLasers, false, "RIGHT", boardScript.waitLasers);
 			break;
 		}
 

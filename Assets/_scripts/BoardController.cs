@@ -15,9 +15,13 @@ public class BoardController : MonoBehaviour {
 	public Sprite laserTop;
 	public Sprite laserLeft;
 	public Sprite laserRight;
+	public GameObject activeLasers;
+	public GameObject waitLasers;
+	public GameObject redSheeps;
+	public GameObject blueSheeps;
 
     private List<Vector3> gridPositions = new List<Vector3>();
-	private GameObject boardHolder;
+	private GameObject instance;
 
     void InitialiseGrid() {
         gridPositions.Clear();
@@ -37,7 +41,7 @@ public class BoardController : MonoBehaviour {
         return randomGrid;
     }
 
-    public void PlaceObject(GameObject newObject, int colMin, int colMax, int rowMin, int rowMax, int numberObjects, bool delete, string orientation)
+    public void PlaceObject(GameObject newObject, int colMin, int colMax, int rowMin, int rowMax, int numberObjects, bool delete, string orientation, GameObject parentObject)
     {
         for (int i = 0; i < numberObjects; i++) {
             Vector3 randomGrid = new Vector3(-1, -1, -1);
@@ -45,7 +49,7 @@ public class BoardController : MonoBehaviour {
                 randomGrid = RandomGrid(delete);
             }
             GameObject instance = Instantiate(newObject, randomGrid, Quaternion.identity) as GameObject;
-			instance.transform.SetParent (boardHolder.transform);
+			instance.transform.SetParent (parentObject.transform);
 
 			SpriteRenderer renderer = instance.GetComponent<SpriteRenderer>();
 
@@ -70,23 +74,20 @@ public class BoardController : MonoBehaviour {
     }
 
     public void StartGame (){
-		if (boardHolder != null)
-			Destroy (boardHolder);
 
-		boardHolder = new GameObject ("Board");
         InitialiseGrid();
-		PlaceObject(laser, 3, 8, 2, 2, numberLasers, false, "BOTTOM");
-		PlaceObject(laser, 3, 8, 9, 9, numberLasers, false, "TOP");
-		PlaceObject(laser, 2, 2, 3, 8, numberLasers, false, "LEFT");
-		PlaceObject(laser, 9, 9, 3, 8, numberLasers, false, "RIGHT");
+		PlaceObject(laser, 3, 8, 2, 2, numberLasers, false, "BOTTOM", activeLasers);
+		PlaceObject(laser, 3, 8, 9, 9, numberLasers, false, "TOP", activeLasers);
+		PlaceObject(laser, 2, 2, 3, 8, numberLasers, false, "LEFT", activeLasers);
+		PlaceObject(laser, 9, 9, 3, 8, numberLasers, false, "RIGHT", activeLasers);
 
         GameObject[] startLasers = GameObject.FindGameObjectsWithTag("WaitLaser");
         foreach (GameObject startLaser in startLasers) {
 			startLaser.tag = "ActiveLaser";
 			startLaser.layer = 12;
 		}
-		PlaceObject(blueSheep, 3, 8, 3, 8, numberSheep, true, null);
-        PlaceObject(redSheep, 3, 8, 3, 8, numberSheep, true, null);
+		PlaceObject(blueSheep, 3, 8, 3, 8, numberSheep, true, null, blueSheeps);
+		PlaceObject(redSheep, 3, 8, 3, 8, numberSheep, true, null, redSheeps);
 
     }
 
