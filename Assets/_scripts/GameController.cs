@@ -6,16 +6,8 @@ using System.Collections.Generic;
 public class GameController : MonoBehaviour {
 
 	public GameObject boardManager;
-	public GameObject slot;
+	public GameObject slotHolder;
 	public List<GameObject> cardSlots;
-	public GameObject leftCard;
-	public GameObject rightCard;
-	public GameObject upCard;
-	public GameObject downCard;
-	public GameObject upRightCard;
-	public GameObject downRightCard;
-	public GameObject upLeftCard;
-	public GameObject downLeftCard;
     public string sheepColour;
 	public GameObject laser;
 	public GameObject laserBeamGraphic;
@@ -31,6 +23,7 @@ public class GameController : MonoBehaviour {
 
 	private GameObject boardHolder;
 	private BoardController boardScript;
+	private CardSlotManager cardSlotScript;
     private string[] sheepColours = new string[2]{"RedSheep", "BlueSheep"};
 	private GameObject newObject;
 	private bool addCard;
@@ -54,12 +47,13 @@ public class GameController : MonoBehaviour {
 		// Finding script that controls dynamic components - sheep + lasers
 		boardScript = boardHolder.GetComponent<BoardController>();
 
+		// Finding script that controls card slots
+		cardSlotScript = slotHolder.GetComponent<CardSlotManager> ();
+
 		// Adding action queue slots to a list in order of resolution
-        // --> Single Gameobject with children
 		cardSlots = new List<GameObject> ();
-		for (int i = 1; i < 5; i++) {
-			slot = GameObject.Find ("Slot" + i);
-			cardSlots.Add (slot);
+		for (int i = 0; i < 4; i++) {
+			cardSlots.Add (slotHolder.transform.GetChild(i).gameObject);
 		}
 
         // Determine if we're running a tutorial or a multiplayer game. Will eventually require support for multiple game modes
@@ -79,7 +73,7 @@ public class GameController : MonoBehaviour {
 			// Selecting a random start player colour
 			sheepColour = sheepColours [Random.Range (0, 2)];
             // Update Cardslots to reflect player colours
-            ChangeSlotColours();
+            cardSlotScript.ChangeSlotColours(PlayerColour.Instance.redSheep);
 
             // Set player scores
             redScore = 5;
@@ -89,99 +83,6 @@ public class GameController : MonoBehaviour {
         // Set random start side for new lasers
         // --> LaserController
 		laserIndex = Random.Range (0, 4);
-	}
-
-	// Function to add or remove action cards from the action queue
-    // --> CardSlotController
-	public void ChangeCardSlot(string cardAction, bool addCard){
-
-		// Run when adding a new action card
-		if (addCard){
-            // Find next empty card slot - should all be on its own script
-			GameObject cardSlot = GetCardSlot("EMPTY");
-            // Choose which card type to find/instantiate - could this be passed directly as cardAction?
-            switch (cardAction){
-			case "LEFT":
-				newObject = leftCard;	
-				break;
-			case "RIGHT":
-				newObject = rightCard;
-				break;
-			case "UP":
-				newObject = upCard;
-				break;
-			case "DOWN":
-				newObject = downCard;
-				break;
-			case "UPRIGHT":
-				newObject = upRightCard;
-				break;
-			case "DOWNRIGHT":
-				newObject = downRightCard;
-				break;
-			case "UPLEFT":
-				newObject = upLeftCard;
-				break;
-			case "DOWNLEFT":
-				newObject = downLeftCard;
-				break;
-			}
-
-			// Add a clone of the selected action as a child of the queue slot
-			if(cardSlot){
-				GameObject instance = Instantiate (newObject, cardSlot.transform.position, Quaternion.identity) as GameObject;
-				instance.transform.SetParent (cardSlot.transform);
-				cardSlot.GetComponent<SlotController>().action = cardAction;
-			}
-		}
-
-		// Run when removing a card from the queue
-		else {
-
-			// Delete any child clones and return queue slot to empty state
-			GameObject cardSlot = GetCardSlot(cardAction);
-
-			if(cardSlot){
-                ResetSlot(cardSlot);
-			}
-		}
-	}
-
-    // Update card slot colours for player colour
-    // --> CardSlotController
-    void ChangeSlotColours()
-    {
-        cardSlots[0].GetComponent<SlotController>().SetMaterial(sheepColour);
-        cardSlots[2].GetComponent<SlotController>().SetMaterial(sheepColour);
-
-        if (sheepColour == "RedSheep")
-            otherColour = "BlueSheep";
-        else
-            otherColour = "RedSheep";
-
-        cardSlots[1].GetComponent<SlotController>().SetMaterial(otherColour);
-        cardSlots[3].GetComponent<SlotController>().SetMaterial(otherColour);
-    }
-
-    // Delete selected action from a slot
-    // --> CardSlotController
-    void ResetSlot(GameObject cardSlot)
-    {
-        GameObject oldCard = cardSlot.transform.GetChild(0).gameObject;
-        Destroy(oldCard);
-        cardSlot.GetComponent<SlotController>().action = "EMPTY";
-    }
-
-    // Find a slot matching request
-    // --> CardSlotController
-    public GameObject GetCardSlot(string oldAction){
-		for (int i = 0; i < 4; i++) {
-			string slotColour = cardSlots[i].GetComponent<SlotController>().colour;
-			string slotAction = cardSlots[i].GetComponent<SlotController>().action;
-			if(sheepColour == slotColour && oldAction == slotAction)
-				return(cardSlots[i]);
-		}
-		return(null);
 	}
 
     // Resolve chosen action cards.
@@ -223,9 +124,9 @@ public class GameController : MonoBehaviour {
             sheepColour = "RedSheep";
 
 		//Change card slots to match new player colours and reset them
-        ChangeSlotColours();		
-        foreach (GameObject slot in cardSlots)
-            ResetSlot(slot);
+        cardSlotScript.ChangeSlotColours(PlayerColour.Instance.redSheep);		
+        foreach (GameObject cardSlot in cardSlots)
+            cardSlotScript.ResetSlot(cardSlot);
 
         //Move any "waiting" Lasers in to active position
         // --> LaserController

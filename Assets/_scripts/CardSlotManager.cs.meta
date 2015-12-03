@@ -1,11 +1,10 @@
 fileFormatVersion: 2
-guid: 7357942a9b1c08146b79665415520754
-timeCreated: 1449139128
+guid: e1273ca42f3724751bca1bb44a8429ea
+timeCreated: 1449146268
 licenseType: Free
 MonoImporter:
   serializedVersion: 2
   defaultReferences:
-  - boardManager: {fileID: 136088, guid: e85201709bee14ca8a10e0965dc573f0, type: 2}
   - slotHolder: {instanceID: 0}
   - leftCard: {fileID: 138592, guid: 9c56a4f6939a3432daac5d5437c89236, type: 2}
   - rightCard: {fileID: 168134, guid: fda016349a11b4b559cb84a0e3ca5df7, type: 2}
@@ -15,12 +14,6 @@ MonoImporter:
   - downRightCard: {fileID: 136876, guid: c8409a1ce5a244aa997b5fce03fe6959, type: 2}
   - upLeftCard: {fileID: 163826, guid: b39ecbde01384471c80b91d470591975, type: 2}
   - downLeftCard: {fileID: 141464, guid: 1d381a309df4243bba36ab83c9f7a630, type: 2}
-  - laser: {fileID: 183426, guid: 97507387619414c4581d80066e439820, type: 2}
-  - laserBeamGraphic: {fileID: 169570, guid: c61c5a1e3f94c33449ee3cc332830413, type: 2}
-  - tutorialManager: {instanceID: 0}
-  - gameEndPanel: {instanceID: 0}
-  - gameEndText: {instanceID: 0}
-  - gameButtons: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

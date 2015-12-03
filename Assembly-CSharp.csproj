@@ -48,12 +48,15 @@
      <Compile Include="Assets\_scripts\BeamController.cs" />
      <Compile Include="Assets\_scripts\BoardController.cs" />
      <Compile Include="Assets\_scripts\CardController.cs" />
+     <Compile Include="Assets\_scripts\CardSlotManager.cs" />
      <Compile Include="Assets\_scripts\GameController.cs" />
      <Compile Include="Assets\_scripts\HighlightController.cs" />
      <Compile Include="Assets\_scripts\LaserController.cs" />
      <Compile Include="Assets\_scripts\MovingObject.cs" />
+     <Compile Include="Assets\_scripts\PlayerColour.cs" />
      <Compile Include="Assets\_scripts\RestartController.cs" />
      <Compile Include="Assets\_scripts\SheepController.cs" />
+     <Compile Include="Assets\_scripts\Singleton.cs" />
      <Compile Include="Assets\_scripts\SlotController.cs" />
      <Compile Include="Assets\_scripts\SubmitController.cs" />
      <Compile Include="Assets\_scripts\TutorialCardController.cs" />

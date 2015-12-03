@@ -68,16 +68,15 @@ public class SubmitController : MonoBehaviour {
 			card.GetComponent<CardController>().Deselect();
 		}
 
+
+
 		// Change player colour
-		if (gameScript.sheepColour == "RedSheep") {
+		if (PlayerColour.Instance.redSheep)
 			displayObject = displaySheepRed;
-			gameScript.sheepColour = "BlueSheep";
-		}
-		else{
+		else
 			displayObject = displaySheepBlue;
-			gameScript.sheepColour = "RedSheep";
-		}
 			
+		PlayerColour.Instance.redSheep = !PlayerColour.Instance.redSheep;
 
 	}
 
