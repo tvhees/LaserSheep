@@ -56,7 +56,7 @@ public class TutorialCardControllerLeft : MonoBehaviour
 			selected = !selected;
 
 			if (selected) {
-   				StartCoroutine(gameScript.ResolveCard(direction, "RedSheep"));
+   				//StartCoroutine(gameScript.ResolveCard(direction, "RedSheep"));
 				pairController.PairSelect();
 			}
 

@@ -24,7 +24,7 @@ public class GameController : MonoBehaviour {
 	private GameObject boardHolder;
 	private BoardController boardScript;
 	private CardSlotManager cardSlotScript;
-    private string[] sheepColours = new string[2]{"RedSheep", "BlueSheep"};
+    private bool[] sheepColours = new bool[2]{true, false};
 	private GameObject newObject;
 	private bool addCard;
 	private GameObject[] sheepList;
@@ -71,7 +71,7 @@ public class GameController : MonoBehaviour {
 			boardScript.StartGame ();
 
 			// Selecting a random start player colour
-			sheepColour = sheepColours [Random.Range (0, 2)];
+			PlayerColour.Instance.redSheep = sheepColours [Random.Range (0, 2)];
             // Update Cardslots to reflect player colours
             cardSlotScript.ChangeSlotColours(PlayerColour.Instance.redSheep);
 
@@ -87,28 +87,9 @@ public class GameController : MonoBehaviour {
 
     // Resolve chosen action cards.
     // Could be here or on CardSlotController
-	public IEnumerator ResolutionPhase(string[] actionList, GameObject[] displaySheep){
+	public IEnumerator ResolutionPhase(GameObject[] displaySheep){
 
-		//Begin with start player for this round
-		string currentColour = sheepColour;
-
-		// For each played action resolve sheep movement, fire lasers, then move to next player colour
-		for (int i = 0; i < 4; i++) {
-
-			Destroy (displaySheep[i]);
-
-			cardSlots[i].transform.GetChild(0).gameObject.SetActive(true);
-
-			yield return StartCoroutine(ResolveCard (actionList [i], currentColour));
-
-			yield return StartCoroutine(FireLasers());
-
-            // Switch to next player's card colour
-			if (currentColour == "RedSheep")
-				currentColour = "BlueSheep";
-			else 
-				currentColour = "RedSheep";
-		}
+		yield return StartCoroutine (cardSlotScript.ResolveCards (displaySheep));
 
         // Check if the game should end
         if (redScore == 0 || blueScore == 0)
@@ -118,10 +99,7 @@ public class GameController : MonoBehaviour {
         }
 
         //Change start player for next round
-        if (sheepColour == "RedSheep")
-            sheepColour = "BlueSheep";
-        else
-            sheepColour = "RedSheep";
+		PlayerColour.Instance.redSheep = !PlayerColour.Instance.redSheep;
 
 		//Change card slots to match new player colours and reset them
         cardSlotScript.ChangeSlotColours(PlayerColour.Instance.redSheep);		
@@ -172,69 +150,6 @@ public class GameController : MonoBehaviour {
 		}
 
 		laserIndex++;
-	}
-
-	//Resolve action cards one at a time
-    // --> CardController
-	public IEnumerator ResolveCard(string direction, string currentColour){
-		if (direction == "LEFT" || direction == "RIGHT" || direction == "UP" || direction == "DOWN") {
-			sheepList = GameObject.FindGameObjectsWithTag (currentColour);
-			yield return StartCoroutine (MoveSheep (direction));
-
-			foreach (GameObject sheep in sheepList)
-				sheep.GetComponent<SheepController>().moved = false;
-		}
-		else {
-			switch(direction){
-			case "UPLEFT":
-				laserList = Physics2D.OverlapAreaAll(new Vector2(1.5f, 3), new Vector2(2.5f, 8));
-				yield return StartCoroutine(MoveLasers (laserList, "UP"));
-
-				laserList = Physics2D.OverlapAreaAll(new Vector2(3, 1.5f), new Vector2(8, 2.5f));
-				yield return StartCoroutine (MoveLasers(laserList, "LEFT"));
-				break;
-			case "UPRIGHT":
-				laserList = Physics2D.OverlapAreaAll(new Vector2(8.5f, 3), new Vector2(9.5f, 8));
-				yield return StartCoroutine(MoveLasers (laserList, "UP"));
-					
-				laserList = Physics2D.OverlapAreaAll(new Vector2(3, 1.5f), new Vector2(8, 2.5f));
-				yield return StartCoroutine (MoveLasers(laserList, "RIGHT"));
-				break;
-			case "DOWNLEFT":
-				laserList = Physics2D.OverlapAreaAll(new Vector2(1.5f, 3), new Vector2(2.5f, 8));
-				yield return StartCoroutine(MoveLasers (laserList, "DOWN"));
-					
-				laserList = Physics2D.OverlapAreaAll(new Vector2(3, 8.5f), new Vector2(8, 9.5f));
-				yield return StartCoroutine (MoveLasers(laserList, "LEFT"));
-				break;
-			case "DOWNRIGHT":
-				laserList = Physics2D.OverlapAreaAll(new Vector2(8.5f, 3), new Vector2(9.5f, 8));
-				yield return StartCoroutine(MoveLasers (laserList, "DOWN"));
-					
-				laserList = Physics2D.OverlapAreaAll(new Vector2(3, 8.5f), new Vector2(8, 9.5f));
-				yield return StartCoroutine (MoveLasers(laserList, "RIGHT"));
-				break;
-			}
-		}
-	}
-
-	// Move all the sheep relevant to one card, one at a time
-    // --> SheepController or CardController?
-	IEnumerator MoveSheep(string direction){
-		foreach (GameObject sheep in sheepList) {
-			SheepController sheepController = sheep.GetComponent<SheepController>();
-			yield return StartCoroutine(sheepController.Move(direction) );
-
-		}
-	}
-
-    // Move all the lasers relevant to one card
-    // --> LaserController or CardController?
-	IEnumerator MoveLasers(Collider2D[] laserList, string direction){
-		foreach(Collider2D laserCollider in laserList){
-			LaserController laserController = laserCollider.GetComponentInParent<LaserController>();
-			yield return StartCoroutine (laserController.Move(direction));
-		}
 	}
 
 	// Fire any relevant laser objects and remove sheep

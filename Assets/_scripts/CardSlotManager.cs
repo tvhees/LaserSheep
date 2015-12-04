@@ -110,4 +110,17 @@ public class CardSlotManager : MonoBehaviour {
 		}
 		return(null);
 	}
+
+	public IEnumerator ResolveCards(GameObject[] displaySheep){
+
+		// For each played action resolve sheep movement, fire lasers, then move to next player colour
+		for (int i = 0; i < 4; i++) {
+			
+			Destroy (displaySheep[i]);
+			
+			yield return StartCoroutine(cardSlots[i].GetComponent<SlotController>().ResolveSlot());
+			
+			//yield return StartCoroutine(FireLasers());
+		}
+	}
 }

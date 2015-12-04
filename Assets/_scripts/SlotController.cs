@@ -22,4 +22,10 @@ public class SlotController : MonoBehaviour {
 		}
     }
 
+	public IEnumerator ResolveSlot(){
+
+		DisplayCardController childScript = transform.GetChild (0).GetComponent<DisplayCardController> ();
+
+		yield return StartCoroutine(childScript.ResolveCard (redCard));
+	}
 }
