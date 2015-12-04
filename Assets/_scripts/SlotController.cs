@@ -22,6 +22,13 @@ public class SlotController : MonoBehaviour {
 		}
     }
 
+	public void ResetSlot(){
+		if(transform.childCount > 0)
+			Destroy (transform.GetChild (0).gameObject);
+
+		action = "EMPTY";
+	}
+
 	public IEnumerator ResolveSlot(){
 
 		DisplayCardController childScript = transform.GetChild (0).GetComponent<DisplayCardController> ();

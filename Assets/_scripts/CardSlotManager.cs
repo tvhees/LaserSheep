@@ -15,6 +15,7 @@ public class CardSlotManager : MonoBehaviour {
 
 	private List<GameObject> cardSlots;
 	private GameObject newObject;
+	private LaserManager activeLasersScript;
 
 	void Awake(){
 		// Adding action queue slots to a list in order of resolution
@@ -76,7 +77,7 @@ public class CardSlotManager : MonoBehaviour {
 			GameObject cardSlot = GetCardSlot(cardAction);
 			
 			if(cardSlot){
-				ResetSlot(cardSlot);
+				cardSlot.GetComponent<SlotController>().ResetSlot();
 			}
 		}
 	}
@@ -85,22 +86,14 @@ public class CardSlotManager : MonoBehaviour {
 	public void ChangeSlotColours(bool redPlayer)
 	{
 		foreach (GameObject cardSlot in cardSlots) {
-			cardSlot.GetComponent<SlotController>().SetMaterial(redPlayer);
+			SlotController slotScript = cardSlot.GetComponent<SlotController>();
+			slotScript.SetMaterial(redPlayer);
+			slotScript.ResetSlot();
 			redPlayer = !redPlayer;
 		}
 	}
 	
-	// Delete selected action from a slot
-	// --> CardSlotController
-	public void ResetSlot(GameObject cardSlot)
-	{
-		GameObject oldCard = cardSlot.transform.GetChild(0).gameObject;
-		Destroy(oldCard);
-		cardSlot.GetComponent<SlotController>().action = "EMPTY";
-	}
-	
 	// Find a slot matching request
-	// --> CardSlotController
 	public GameObject GetCardSlot(string oldAction){
 		for (int i = 0; i < 4; i++) {
 			bool slotColour = cardSlots[i].GetComponent<SlotController>().redCard;
@@ -111,7 +104,9 @@ public class CardSlotManager : MonoBehaviour {
 		return(null);
 	}
 
-	public IEnumerator ResolveCards(GameObject[] displaySheep){
+	public IEnumerator ResolveCards(GameObject[] displaySheep, GameObject boardHolder){
+
+		activeLasersScript = boardHolder.transform.GetChild (0).GetComponent<LaserManager>();
 
 		// For each played action resolve sheep movement, fire lasers, then move to next player colour
 		for (int i = 0; i < 4; i++) {
@@ -120,7 +115,7 @@ public class CardSlotManager : MonoBehaviour {
 			
 			yield return StartCoroutine(cardSlots[i].GetComponent<SlotController>().ResolveSlot());
 			
-			//yield return StartCoroutine(FireLasers());
+			yield return StartCoroutine(activeLasersScript.FireLasers());
 		}
 	}
 }

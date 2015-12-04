@@ -10,11 +10,6 @@ public class GameController : MonoBehaviour {
 	public List<GameObject> cardSlots;
     public string sheepColour;
 	public GameObject laser;
-	public GameObject laserBeamGraphic;
-	public LayerMask laserMask;
-	public LayerMask sheepMask;
-	public float beamWaitTime;
-	public float beamFireTime;
 	public GameObject tutorialManager;
 	public bool tutorial;
     public GameObject gameEndPanel;
@@ -34,8 +29,6 @@ public class GameController : MonoBehaviour {
 	private int laserIndex;
 	private int numberLasers = 1;
 	private TutorialController tutorialScript;
-    private int redScore;
-    private int blueScore;
 
 	void Awake() {
 		// Making sure there's no existing board
@@ -75,9 +68,9 @@ public class GameController : MonoBehaviour {
             // Update Cardslots to reflect player colours
             cardSlotScript.ChangeSlotColours(PlayerColour.Instance.redSheep);
 
-            // Set player scores
-            redScore = 5;
-            blueScore = 5;
+            // Set global player scores
+            PlayerColour.Instance.redScore = 5;
+            PlayerColour.Instance.blueScore = 5;
 		}
 
         // Set random start side for new lasers
@@ -85,14 +78,13 @@ public class GameController : MonoBehaviour {
 		laserIndex = Random.Range (0, 4);
 	}
 
-    // Resolve chosen action cards.
-    // Could be here or on CardSlotController
+    // Resolve chosen cards, check for game end and prepare for the next turn.
 	public IEnumerator ResolutionPhase(GameObject[] displaySheep){
 
-		yield return StartCoroutine (cardSlotScript.ResolveCards (displaySheep));
+		yield return StartCoroutine (cardSlotScript.ResolveCards (displaySheep, boardHolder));
 
         // Check if the game should end
-        if (redScore == 0 || blueScore == 0)
+		if (PlayerColour.Instance.redScore < 1 || PlayerColour.Instance.blueScore < 1)
         {
             EndGame();
             yield break;
@@ -103,8 +95,6 @@ public class GameController : MonoBehaviour {
 
 		//Change card slots to match new player colours and reset them
         cardSlotScript.ChangeSlotColours(PlayerColour.Instance.redSheep);		
-        foreach (GameObject cardSlot in cardSlots)
-            cardSlotScript.ResetSlot(cardSlot);
 
         //Move any "waiting" Lasers in to active position
         // --> LaserController
@@ -152,66 +142,11 @@ public class GameController : MonoBehaviour {
 		laserIndex++;
 	}
 
-	// Fire any relevant laser objects and remove sheep
-    // --> LaserController
-	IEnumerator FireLasers(){
-		GameObject[] activeLasers = GameObject.FindGameObjectsWithTag ("ActiveLaser");
-
-		foreach (GameObject activeLaser in activeLasers) {
-			Vector2 laserPosition = activeLaser.transform.position;
-			if (laserPosition.x == 2)
-				laserBeam(activeLaser, activeLasers, new Vector2(5.5f, laserPosition.y), new Vector2(1, 0));
-			if (laserPosition.y == 2)
-				laserBeam(activeLaser, activeLasers, new Vector2(laserPosition.x, 5.5f), new Vector2(0, 1)); 
-		}
-
-		yield return new WaitForSeconds (beamWaitTime);
-
-	}
-
-    // Display a laser beam, destroy sheep, decrease score appropriately
-    // --> LaserController/SheepController
-	void laserBeam(GameObject activeLaser, GameObject[] activeLasers, Vector2 position, Vector2 direction){
-		Quaternion rotation;
-		Collider2D[] sheepHit;
-		Vector2 pointA;
-		Vector2 pointB;
-		
-		if (direction.x == 1) {
-			rotation = Quaternion.identity;
-			pointA = new Vector2(2, position.y + 0.2f);
-			pointB = new Vector2(9, position.y - 0.2f);
-		} 
-		else {
-			rotation = Quaternion.Euler (0, 0, 90);
-			pointA = new Vector2(position.x + 0.2f, 2);
-			pointB = new Vector2(position.x - 0.2f, 9);
-		}
-
-		RaycastHit2D otherObject = Physics2D.Raycast(position, direction, Mathf.Infinity , laserMask);
-
-		GameObject beamGraphic = null;
-
-		if (otherObject.collider != null) {
-			beamGraphic = Instantiate (laserBeamGraphic, position, rotation) as GameObject;
-			sheepHit = Physics2D.OverlapAreaAll(pointA,pointB,sheepMask);
-			foreach(Collider2D sheep in sheepHit){
-				Destroy (sheep.gameObject);
-                if (sheep.tag == "RedSheep")
-                    redScore--;
-                else
-                    blueScore--;
-			}
-		}
-
-		Destroy (beamGraphic, beamFireTime);
-	}
-
     // Display winner at end of game, deactivate all but main menu button
     void EndGame() {
         gameEndPanel.SetActive(true);
-        if (redScore == 0) {
-            if (blueScore == 0)
+        if (PlayerColour.Instance.redScore == 0) {
+			if (PlayerColour.Instance.blueScore == 0)
             {
                 gameEndText.text = "It's a draw!";
             }
