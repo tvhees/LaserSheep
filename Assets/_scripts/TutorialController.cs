@@ -25,6 +25,7 @@ public class TutorialController : MonoBehaviour {
 	private string messageString;
 
 	public void StartTutorial(){
+		PlayerColour.Instance.redSheep = true;
 		tutorialIndex = 0;
 		ChangeMessage(tutorialIndex);
 	}

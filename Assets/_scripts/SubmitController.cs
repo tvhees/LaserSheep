@@ -45,8 +45,7 @@ public class SubmitController : MonoBehaviour {
 			instance = Instantiate(displayObject, slot4.gameObject.transform.position, Quaternion.identity) as GameObject;
 			displaySheep[3] = instance;
 
-			string[] actionList = new string[]{slot1.action, slot2.action, slot3.action, slot4.action};
-			StartCoroutine (gameScript.ResolutionPhase (actionList, displaySheep));
+			StartCoroutine (gameScript.ResolutionPhase (displaySheep));
 		}
 		else {
 			instance = Instantiate(displayObject, slot1.gameObject.transform.position, Quaternion.identity) as GameObject;
@@ -68,16 +67,15 @@ public class SubmitController : MonoBehaviour {
 			card.GetComponent<CardController>().Deselect();
 		}
 
+
+
 		// Change player colour
-		if (gameScript.sheepColour == "RedSheep") {
+		if (PlayerColour.Instance.redSheep)
 			displayObject = displaySheepRed;
-			gameScript.sheepColour = "BlueSheep";
-		}
-		else{
+		else
 			displayObject = displaySheepBlue;
-			gameScript.sheepColour = "RedSheep";
-		}
 			
+		PlayerColour.Instance.redSheep = !PlayerColour.Instance.redSheep;
 
 	}
 
