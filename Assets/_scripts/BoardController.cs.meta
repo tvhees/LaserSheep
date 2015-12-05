@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 2dcb7d5196cd7c043aa8ebb1b58c694c
-timeCreated: 1447845087
+timeCreated: 1449121645
 licenseType: Free
 MonoImporter:
   serializedVersion: 2
@@ -8,6 +8,11 @@ MonoImporter:
   - blueSheep: {fileID: 190638, guid: 0ef8ebb4bab2253439338917e21d8c79, type: 2}
   - redSheep: {fileID: 179758, guid: 1d56b01680f8018459f3f1789515cc4a, type: 2}
   - laser: {fileID: 183426, guid: 97507387619414c4581d80066e439820, type: 2}
+  - laserBottom: {fileID: 21300000, guid: 3625e1e659046aa41ae0f853b14e5d24, type: 3}
+  - laserTop: {fileID: 21300004, guid: 3625e1e659046aa41ae0f853b14e5d24, type: 3}
+  - laserLeft: {fileID: 21300002, guid: 3625e1e659046aa41ae0f853b14e5d24, type: 3}
+  - laserRight: {fileID: 21300006, guid: 3625e1e659046aa41ae0f853b14e5d24, type: 3}
+  - boardManager: {fileID: 140732, guid: e85201709bee14ca8a10e0965dc573f0, type: 2}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

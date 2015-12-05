@@ -10,9 +10,10 @@ public class CardController : MonoBehaviour
     public string sheepColour;
     public string direction;
 	public GameObject pair;
+	public GameObject slotHolder;
 
 	private bool active;
-    private GameController gameScript;
+    private CardSlotManager cardSlotScript;
     private SpriteRenderer cardTexture;
 	private bool selected;
 	private CardController pairController;
@@ -21,7 +22,7 @@ public class CardController : MonoBehaviour
     {
         cardTexture = GetComponent<SpriteRenderer>();
 
-		gameScript = GameObject.Find("Main Camera").GetComponent<GameController> ();
+		cardSlotScript = slotHolder.GetComponent<CardSlotManager> ();
 
 		pairController = pair.GetComponent<CardController> ();
 
@@ -52,12 +53,12 @@ public class CardController : MonoBehaviour
 			selected = !selected;
 
 			if (selected) {
-				gameScript.ChangeCardSlot(direction, true);
+				cardSlotScript.ChangeCardSlot(direction, true);
 				pairController.PairSelect();
 			}
 
 			if (!selected) {
-				gameScript.ChangeCardSlot (direction, false);
+				cardSlotScript.ChangeCardSlot (direction, false);
 				pairController.Deselect();
 			}
 

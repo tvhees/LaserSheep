@@ -1,69 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class SheepController : MonoBehaviour {
+public class SheepController : MovingObject {
 
-	public float moveSpeed;
-	public bool moved = false;
+	// blocking method for sheep objects
+	protected override int Blocking(Vector2 start, Vector2 direction){
 
-	private int moveFlag;
-	private Vector2 increment;
-    private Transform sheepTransform;
-	private Collider2D otherCollider;
-	private Vector2 end;
-	private Vector2 sheepPosition;
+		Vector2 point = start + direction;
 
-    public IEnumerator Move(string direction) {
-        sheepTransform = GetComponent<Transform>();
-		sheepPosition = sheepTransform.position;
-		Vector2 start = sheepPosition;
-
-		switch (direction) {
-		case "RIGHT":
-			increment = new Vector2(1, 0);
-			break;
-		case "LEFT":
-			increment = new Vector2(-1, 0);
-			break;
-		case "UP":
-			increment = new Vector2(0, 1);
-			break;
-		case "DOWN":
-			increment = new Vector2(0, -1);
-			break;
-		}
-
-        moveFlag = Blocking(start, direction);
-
-        end = start + moveFlag * increment;
-
-		yield return StartCoroutine (SmoothMovement(end));
-
-		moved = true;
-
-    }
-
-	IEnumerator SmoothMovement(Vector2 end){
-
-		float sqrDistance = (sheepPosition - end).sqrMagnitude;
-
-		while (sqrDistance > float.Epsilon) {
-			Vector2 newPosition = Vector2.MoveTowards(sheepPosition, end, moveSpeed * Time.deltaTime);
-
-			sheepTransform.position = newPosition;
-
-			sheepPosition = sheepTransform.position;
-
-			sqrDistance = (sheepPosition - end).sqrMagnitude;
-
-			yield return null;
-		}
-
-	}
-
-	int Blocking(Vector2 start, string direction){
-
-		Vector2 point = start + increment;
+		Collider2D otherCollider;
 
 		while (point.x > 2 && point.x < 9 && point.y > 2 && point.y < 9){
 
@@ -78,10 +23,10 @@ public class SheepController : MonoBehaviour {
 			if (otherCollider.gameObject.tag != this.tag)
 				break;
 
-			point += increment;
+			point += direction;
 		}
 
-		point = start - increment;
+		point = start - direction;
 
 		while (point.x > 2 && point.x < 9 && point.y > 2 && point.y < 9)
         {
@@ -97,7 +42,7 @@ public class SheepController : MonoBehaviour {
 			if (otherCollider.gameObject.tag != this.tag)
 				break;
 
-			point -=increment;
+			point -=direction;
 		}
 
 		return 0;

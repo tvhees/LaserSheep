@@ -6,7 +6,7 @@
 	<ProductVersion>10.0.20506</ProductVersion>
 	<SchemaVersion>2.0</SchemaVersion>
 	<RootNamespace></RootNamespace>
-	<ProjectGuid>{DDE33610-7094-5B41-EAC2-5E62C2828DFF}</ProjectGuid>
+	<ProjectGuid>{845486CA-50B4-7EC0-D08A-4B52346ABCE0}</ProjectGuid>
 	<OutputType>Library</OutputType>
 	<AppDesignerFolder>Properties</AppDesignerFolder>
 	<AssemblyName>Assembly-CSharp</AssemblyName>
@@ -48,11 +48,19 @@
      <Compile Include="Assets\_scripts\BeamController.cs" />
      <Compile Include="Assets\_scripts\BoardController.cs" />
      <Compile Include="Assets\_scripts\CardController.cs" />
+     <Compile Include="Assets\_scripts\CardSlotManager.cs" />
+     <Compile Include="Assets\_scripts\DisplayCardController.cs" />
      <Compile Include="Assets\_scripts\GameController.cs" />
      <Compile Include="Assets\_scripts\HighlightController.cs" />
+     <Compile Include="Assets\_scripts\IndicatorScript.cs" />
      <Compile Include="Assets\_scripts\LaserController.cs" />
+     <Compile Include="Assets\_scripts\LaserManager.cs" />
+     <Compile Include="Assets\_scripts\MovingObject.cs" />
+     <Compile Include="Assets\_scripts\PlayerColour.cs" />
      <Compile Include="Assets\_scripts\RestartController.cs" />
      <Compile Include="Assets\_scripts\SheepController.cs" />
+     <Compile Include="Assets\_scripts\SheepManager.cs" />
+     <Compile Include="Assets\_scripts\Singleton.cs" />
      <Compile Include="Assets\_scripts\SlotController.cs" />
      <Compile Include="Assets\_scripts\SubmitController.cs" />
      <Compile Include="Assets\_scripts\TutorialCardController.cs" />
