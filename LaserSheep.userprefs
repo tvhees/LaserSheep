@@ -1,12 +1,10 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/_scripts/BoardController.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/_scripts/GameController.cs">
     <Files>
-      <File FileName="Assets/_scripts/BoardController.cs" Line="59" Column="44" />
-      <File FileName="Assets/_scripts/LaserController.cs" Line="1" Column="1" />
-      <File FileName="Assets/_scripts/DisplayCardController.cs" Line="1" Column="1" />
-      <File FileName="Assets/_scripts/SheepManager.cs" Line="1" Column="1" />
-      <File FileName="Assets/_scripts/LaserManager.cs" Line="1" Column="1" />
+      <File FileName="Assets/_scripts/GameController.cs" Line="12" Column="23" />
+      <File FileName="Assets/_scripts/BoardController.cs" Line="90" Column="38" />
+      <File FileName="Assets/_scripts/LaserController.cs" Line="9" Column="37" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

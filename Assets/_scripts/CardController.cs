@@ -7,7 +7,6 @@ public class CardController : MonoBehaviour
     public Sprite idleTexture;
     public Sprite hoverTexture;
     public Sprite clickTexture;
-    public string sheepColour;
     public string direction;
 	public GameObject pair;
 	public GameObject slotHolder;
