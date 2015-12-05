@@ -4,7 +4,7 @@ using System.Collections;
 public class DisplayCardController : MonoBehaviour {
 	
 	public bool sheepCard;
-	public string direction;
+	public Vector2 direction;
 	public GameObject redSheeps;
 	public GameObject blueSheeps;
 	public GameObject activeLasers;

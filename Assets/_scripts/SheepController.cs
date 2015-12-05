@@ -4,9 +4,9 @@ using System.Collections;
 public class SheepController : MovingObject {
 
 	// blocking method for sheep objects
-	protected override int Blocking(Vector2 start, Vector2 increment){
+	protected override int Blocking(Vector2 start, Vector2 direction){
 
-		Vector2 point = start + increment;
+		Vector2 point = start + direction;
 
 		Collider2D otherCollider;
 
@@ -23,10 +23,10 @@ public class SheepController : MovingObject {
 			if (otherCollider.gameObject.tag != this.tag)
 				break;
 
-			point += increment;
+			point += direction;
 		}
 
-		point = start - increment;
+		point = start - direction;
 
 		while (point.x > 2 && point.x < 9 && point.y > 2 && point.y < 9)
         {
@@ -42,7 +42,7 @@ public class SheepController : MovingObject {
 			if (otherCollider.gameObject.tag != this.tag)
 				break;
 
-			point -=increment;
+			point -=direction;
 		}
 
 		return 0;

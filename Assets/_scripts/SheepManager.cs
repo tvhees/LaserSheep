@@ -3,7 +3,7 @@ using System.Collections;
 
 public class SheepManager : MonoBehaviour {
 
-	public IEnumerator MoveSheep(string direction){
+	public IEnumerator MoveSheep(Vector2 direction){
 		SheepController[] sheepList = transform.GetComponentsInChildren<SheepController> ();
 			
 		foreach (SheepController sheep in sheepList)

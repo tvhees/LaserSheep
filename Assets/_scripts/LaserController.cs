@@ -4,9 +4,9 @@ using System.Collections;
 public class LaserController : MovingObject {
 
 	// Blocking method for laser objects
-	protected override int Blocking(Vector2 start, Vector2 increment){
+	protected override int Blocking(Vector2 start, Vector2 direction){
 		
-		Vector2 point = start + increment;
+		Vector2 point = start + direction;
 
 		Collider2D otherCollider;
 
@@ -26,10 +26,10 @@ public class LaserController : MovingObject {
 			if (otherCollider.gameObject.tag != this.tag)
 				break;
 			
-			point += increment;
+			point += direction;
 		}
 
-		point = start - increment;
+		point = start - direction;
 		
 		while (true)
 		{
@@ -42,7 +42,7 @@ public class LaserController : MovingObject {
 			if (otherCollider.gameObject.tag != this.tag)
 				break;
 			
-			point -=increment;
+			point -=direction;
 		}
 		return 0;
 	}

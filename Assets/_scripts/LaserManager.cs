@@ -9,53 +9,57 @@ public class LaserManager : MonoBehaviour {
 	public LayerMask laserMask;
 	public GameObject laserBeamGraphic;
 
-	public IEnumerator MoveLasers(string direction){
+	private Vector2 reference = new Vector2(2,1);
+
+	public IEnumerator MoveLasers(Vector2 direction){
+
+		int dotProduct = Mathf.RoundToInt(Vector2.Dot (direction, reference));
 
 		Collider2D[] laserList;
 
-		switch(direction){
-		case "UPLEFT":
+		switch(dotProduct){
+		case 1:
 			laserList = Physics2D.OverlapAreaAll(new Vector2(1.5f, 3), new Vector2(2.5f, 8));
 			foreach(Collider2D laser in laserList){
-				yield return StartCoroutine(laser.GetComponent<LaserController>().Move("UP"));
+				yield return StartCoroutine(laser.GetComponent<LaserController>().Move(Vector2.up));
 			}
 			
 			laserList = Physics2D.OverlapAreaAll(new Vector2(3, 1.5f), new Vector2(8, 2.5f));
 			foreach(Collider2D laser in laserList){
-				yield return StartCoroutine(laser.GetComponent<LaserController>().Move("LEFT"));
+				yield return StartCoroutine(laser.GetComponent<LaserController>().Move(-Vector2.right));
 			}
 			break;
-		case "UPRIGHT":
+		case 3:
 			laserList = Physics2D.OverlapAreaAll(new Vector2(8.5f, 3), new Vector2(9.5f, 8));
 			foreach(Collider2D laser in laserList){
-				yield return StartCoroutine(laser.GetComponent<LaserController>().Move("UP"));
+				yield return StartCoroutine(laser.GetComponent<LaserController>().Move(Vector2.up));
 			}
 			
 			laserList = Physics2D.OverlapAreaAll(new Vector2(3, 1.5f), new Vector2(8, 2.5f));
 			foreach(Collider2D laser in laserList){
-				yield return StartCoroutine(laser.GetComponent<LaserController>().Move("RIGHT"));
+				yield return StartCoroutine(laser.GetComponent<LaserController>().Move(Vector2.right));
 			}
 			break;
-		case "DOWNLEFT":
+		case -3:
 			laserList = Physics2D.OverlapAreaAll(new Vector2(1.5f, 3), new Vector2(2.5f, 8));
 			foreach(Collider2D laser in laserList){
-				yield return StartCoroutine(laser.GetComponent<LaserController>().Move("DOWN"));
+				yield return StartCoroutine(laser.GetComponent<LaserController>().Move(-Vector2.up));
 			}
 			
 			laserList = Physics2D.OverlapAreaAll(new Vector2(3, 8.5f), new Vector2(8, 9.5f));
 			foreach(Collider2D laser in laserList){
-				yield return StartCoroutine(laser.GetComponent<LaserController>().Move("LEFT"));
+				yield return StartCoroutine(laser.GetComponent<LaserController>().Move(-Vector2.right));
 			}
 			break;
-		case "DOWNRIGHT":
+		case -1:
 			laserList = Physics2D.OverlapAreaAll(new Vector2(8.5f, 3), new Vector2(9.5f, 8));
 			foreach(Collider2D laser in laserList){
-				yield return StartCoroutine(laser.GetComponent<LaserController>().Move("DOWN"));
+				yield return StartCoroutine(laser.GetComponent<LaserController>().Move(-Vector2.up));
 			}
 			
 			laserList = Physics2D.OverlapAreaAll(new Vector2(3, 8.5f), new Vector2(8, 9.5f));
 			foreach(Collider2D laser in laserList){
-				yield return StartCoroutine(laser.GetComponent<LaserController>().Move("RIGHT"));
+				yield return StartCoroutine(laser.GetComponent<LaserController>().Move(Vector2.right));
 			}
 			break;
 		}
@@ -80,9 +84,9 @@ public class LaserManager : MonoBehaviour {
 		foreach (GameObject activeLaser in activeLasers) {
 			Vector2 laserPosition = activeLaser.transform.position;
 			if (laserPosition.x == 2)
-				laserBeam(activeLaser, activeLasers, new Vector2(5.5f, laserPosition.y), new Vector2(1, 0));
+				laserBeam(activeLaser, activeLasers, new Vector2(5.5f, laserPosition.y), Vector2.right);
 			if (laserPosition.y == 2)
-				laserBeam(activeLaser, activeLasers, new Vector2(laserPosition.x, 5.5f), new Vector2(0, 1)); 
+				laserBeam(activeLaser, activeLasers, new Vector2(laserPosition.x, 5.5f), Vector2.up); 
 		}
 		
 		yield return new WaitForSeconds (beamWaitTime);
