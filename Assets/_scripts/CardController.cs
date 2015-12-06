@@ -7,9 +7,9 @@ public class CardController : MonoBehaviour
     public Sprite idleTexture;
     public Sprite hoverTexture;
     public Sprite clickTexture;
-    public string direction;
 	public GameObject pair;
 	public GameObject slotHolder;
+	public GameObject displayCard;
 
 	private bool active;
     private CardSlotManager cardSlotScript;
@@ -52,12 +52,12 @@ public class CardController : MonoBehaviour
 			selected = !selected;
 
 			if (selected) {
-				cardSlotScript.ChangeCardSlot(direction, true);
+				cardSlotScript.ChangeCardSlot(displayCard, true);
 				pairController.PairSelect();
 			}
 
 			if (!selected) {
-				cardSlotScript.ChangeCardSlot (direction, false);
+				cardSlotScript.ChangeCardSlot (displayCard, false);
 				pairController.Deselect();
 			}
 

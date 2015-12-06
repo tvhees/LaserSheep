@@ -14,7 +14,6 @@ public class CardSlotManager : MonoBehaviour {
 	public GameObject downLeftCard;
 
 	private List<GameObject> cardSlots;
-	private GameObject newObject;
 	private LaserManager activeLasersScript;
 
 	void Awake(){
@@ -27,46 +26,17 @@ public class CardSlotManager : MonoBehaviour {
 
 
 	// Function to add or remove action cards from the action queue
-	public void ChangeCardSlot(string cardAction, bool addCard){
+	public void ChangeCardSlot(GameObject displayCard, bool addCard){
 		
 		// Run when adding a new action card
 		if (addCard){
 			// Find next empty card slot - should all be on its own script
-			GameObject cardSlot = GetCardSlot("EMPTY");
-
-			// Choose which card type to find/instantiate - could this be passed directly as cardAction?
-			switch (cardAction){
-			case "LEFT":
-				newObject = leftCard;	
-				break;
-			case "RIGHT":
-				newObject = rightCard;
-				break;
-			case "UP":
-				newObject = upCard;
-				break;
-			case "DOWN":
-				newObject = downCard;
-				break;
-			case "UPRIGHT":
-				newObject = upRightCard;
-				break;
-			case "DOWNRIGHT":
-				newObject = downRightCard;
-				break;
-			case "UPLEFT":
-				newObject = upLeftCard;
-				break;
-			case "DOWNLEFT":
-				newObject = downLeftCard;
-				break;
-			}
+			GameObject cardSlot = GetCardSlot(null);
 			
 			// Add a clone of the selected action as a child of the queue slot
 			if(cardSlot){
-				GameObject instance = Instantiate (newObject, cardSlot.transform.position, Quaternion.identity) as GameObject;
+				GameObject instance = Instantiate (displayCard, cardSlot.transform.position, Quaternion.identity) as GameObject;
 				instance.transform.SetParent (cardSlot.transform);
-				cardSlot.GetComponent<SlotController>().action = cardAction;
 			}
 		}
 		
@@ -74,7 +44,7 @@ public class CardSlotManager : MonoBehaviour {
 		else {
 			
 			// Delete any child clones and return queue slot to empty state
-			GameObject cardSlot = GetCardSlot(cardAction);
+			GameObject cardSlot = GetCardSlot(displayCard);
 			
 			if(cardSlot){
 				cardSlot.GetComponent<SlotController>().ResetSlot();
@@ -94,11 +64,13 @@ public class CardSlotManager : MonoBehaviour {
 	}
 	
 	// Find a slot matching request
-	public GameObject GetCardSlot(string oldAction){
+	public GameObject GetCardSlot(GameObject displayCard){
 		for (int i = 0; i < 4; i++) {
 			bool slotColour = cardSlots[i].GetComponent<SlotController>().redCard;
-			string slotAction = cardSlots[i].GetComponent<SlotController>().action;
-			if(PlayerColour.Instance.redSheep == slotColour && oldAction == slotAction)
+			GameObject slotAction = null;
+			if (cardSlots[i].transform.childCount > 0)
+				slotAction = cardSlots[i].transform.GetChild(0).gameObject;
+			if(PlayerColour.Instance.redSheep == slotColour && displayCard == slotAction)
 				return(cardSlots[i]);
 		}
 		return(null);

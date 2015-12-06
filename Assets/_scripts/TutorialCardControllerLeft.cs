@@ -24,9 +24,9 @@ public class TutorialCardControllerLeft : MonoBehaviour
     {
         cardTexture = GetComponent<SpriteRenderer>();
 
-		cardSlotScript = slotHolder.GetComponent<CardSlotManager> ();
+		//cardSlotScript = slotHolder.GetComponent<CardSlotManager> ();
 
-		gameScript = GameObject.Find("Main Camera").GetComponent<GameController> ();
+		//gameScript = GameObject.Find("Main Camera").GetComponent<GameController> ();
 
 		pairController = pair.GetComponent<TutorialCardController> ();
 
@@ -61,7 +61,7 @@ public class TutorialCardControllerLeft : MonoBehaviour
 			}
 
 			if (!selected) {
-				cardSlotScript.ChangeCardSlot (direction, false);
+				//cardSlotScript.ChangeCardSlot (direction, false);
 				pairController.Deselect();
 			}
 
