@@ -102,11 +102,7 @@ public class LaserManager : MonoBehaviour {
 			beamGraphic = Instantiate (laserBeamGraphic, position, rotation) as GameObject;
 			sheepHit = Physics2D.OverlapAreaAll(pointA,pointB,sheepMask);
 			foreach(Collider2D sheep in sheepHit){
-				Destroy (sheep.gameObject);
-				if (sheep.tag == "RedSheep")
-					PlayerColour.Instance.redScore--;
-				else
-					PlayerColour.Instance.blueScore--;
+				sheep.GetComponent<SheepController>().LaserHit();
 			}
 		}
 		

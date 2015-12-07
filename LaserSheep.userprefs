@@ -1,16 +1,11 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/_scripts/SubmitController.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/_scripts/SheepController.cs">
     <Files>
-      <File FileName="Assets/_scripts/GameController.cs" Line="1" Column="1" />
-      <File FileName="Assets/_scripts/BoardController.cs" Line="1" Column="1" />
-      <File FileName="Assets/_scripts/LaserController.cs" Line="1" Column="1" />
-      <File FileName="Assets/_scripts/CardSlotManager.cs" Line="1" Column="1" />
-      <File FileName="Assets/_scripts/CardController.cs" Line="1" Column="1" />
-      <File FileName="Assets/_scripts/SlotController.cs" Line="1" Column="1" />
-      <File FileName="Assets/_scripts/TutorialCardController.cs" Line="1" Column="1" />
-      <File FileName="Assets/_scripts/TutorialCardControllerLeft.cs" Line="1" Column="1" />
-      <File FileName="Assets/_scripts/SubmitController.cs" Line="33" Column="1" />
+      <File FileName="Assets/_scripts/MovingObject.cs" Line="13" Column="42" />
+      <File FileName="Assets/_scripts/LaserController.cs" Line="13" Column="3" />
+      <File FileName="Assets/_scripts/BoardController.cs" Line="43" Column="56" />
+      <File FileName="Assets/_scripts/SheepController.cs" Line="18" Column="38" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
