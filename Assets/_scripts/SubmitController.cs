@@ -8,19 +8,15 @@ public class SubmitController : MonoBehaviour {
 	public GameObject displaySheepBlue;
 	public GameObject[] displaySheep;
     public GameObject gameManager;
-    public GameObject slotOne;
-    public GameObject slotTwo;
-    public GameObject slotThree;
-    public GameObject slotFour;
+    public GameObject slot1;
+    public GameObject slot2;
+    public GameObject slot3;
+    public GameObject slot4;
 
 	private GameObject displayObject;
     private GameController gameScript;
 	private GameObject[] actionCards;
 	private GameObject[] displayCards;
-	private SlotController slot1;
-	private SlotController slot2;
-	private SlotController slot3;
-	private SlotController slot4;
 	private GameObject instance;
     
 
@@ -28,29 +24,24 @@ public class SubmitController : MonoBehaviour {
         gameScript = gameManager.GetComponent<GameController>();
 		actionCards = GameObject.FindGameObjectsWithTag ("ActionCard");
 		displaySheep = new GameObject[4];
-
-		slot1 = slotOne.GetComponent<SlotController>();
-		slot2 = slotTwo.GetComponent<SlotController>();
-        slot3 = slotThree.GetComponent<SlotController>();
-        slot4 = slotFour.GetComponent<SlotController>();
     }
 
 	void OnMouseUpAsButton(){
 
         NextPlayer();
 
-		if (slot2.action != "EMPTY" && slot4.action != "EMPTY") {
-			instance = Instantiate(displayObject, slot2.gameObject.transform.position, Quaternion.identity) as GameObject;
+		if (slot2.transform.childCount > 0 && slot4.transform.childCount > 0) {
+			instance = Instantiate(displayObject, slot2.transform.position, Quaternion.identity) as GameObject;
 			displaySheep[1] = instance;
-			instance = Instantiate(displayObject, slot4.gameObject.transform.position, Quaternion.identity) as GameObject;
+			instance = Instantiate(displayObject, slot4.transform.position, Quaternion.identity) as GameObject;
 			displaySheep[3] = instance;
 
 			StartCoroutine (gameScript.ResolutionPhase (displaySheep));
 		}
 		else {
-			instance = Instantiate(displayObject, slot1.gameObject.transform.position, Quaternion.identity) as GameObject;
+			instance = Instantiate(displayObject, slot1.transform.position, Quaternion.identity) as GameObject;
 			displaySheep[0] = instance;
-			instance = Instantiate(displayObject, slot3.gameObject.transform.position, Quaternion.identity) as GameObject;
+			instance = Instantiate(displayObject, slot3.transform.position, Quaternion.identity) as GameObject;
 			displaySheep[2] = instance;
 		}
 	}

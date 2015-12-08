@@ -40,8 +40,8 @@ public class BoardController : MonoBehaviour {
 		StartCoroutine (updateLasers ());
 		
 		// Place initial sheep without overlap
-		PlaceObject(blueSheep, 3, 8, 3, 8, numberSheep, true, Vector2.up, blueSheeps);
-		PlaceObject(redSheep, 3, 8, 3, 8, numberSheep, true, Vector2.up, redSheeps);
+		PlaceObject(blueSheep, 3, 8, 3, 8, numberSheep, true, Vector2.right, blueSheeps);
+		PlaceObject(redSheep, 3, 8, 3, 8, numberSheep, true, -Vector2.right, redSheeps);
 		
 		// Set random start side for new lasers
 		laserIndex = Random.Range (0, 4);

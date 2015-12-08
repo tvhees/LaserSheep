@@ -3,6 +3,35 @@ using System.Collections;
 
 public class LaserController : MovingObject {
 
+	public Sprite spriteOne;
+	public Sprite spriteTwo;
+	public Sprite spriteThree;
+	public Sprite spriteFour;
+
+	void Awake(){
+		spriteRenderer = GetComponent<SpriteRenderer> ();
+	}
+	
+	public override void ChangeSprite(){
+		
+		int dotProduct = Mathf.RoundToInt(Vector2.Dot (orientation, reference));
+		
+		switch (dotProduct) {
+		case 1:
+			spriteRenderer.sprite = spriteOne;
+			break;
+		case -1:
+			spriteRenderer.sprite = spriteTwo;
+			break;
+		case 2:
+			spriteRenderer.sprite = spriteThree;
+			break;
+		case -2:
+			spriteRenderer.sprite = spriteFour;
+			break;
+		}
+	}
+
 	// Blocking method for laser objects
 	protected override int Blocking(Vector2 start, Vector2 direction){
 		
