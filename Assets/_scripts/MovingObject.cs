@@ -6,37 +6,13 @@ public abstract class MovingObject : MonoBehaviour {
 	public float moveSpeed = 3.0f;
 	public bool moved = false;
 	public Vector2 orientation;
-	public Sprite spriteOne;
-	public Sprite spriteTwo;
-	public Sprite spriteThree;
-	public Sprite spriteFour;
 
 	protected Vector2 reference = new Vector2(2,1);
 	protected Vector3 end;
 	protected int moveFlag;
 	protected SpriteRenderer spriteRenderer;
-	
-	public void ChangeSprite(){
-		spriteRenderer = GetComponent<SpriteRenderer> ();
-		
-		int dotProduct = Mathf.RoundToInt(Vector2.Dot (orientation, reference));
-		
-		switch (dotProduct) {
-		case 1:
-			spriteRenderer.sprite = spriteOne;
-			break;
-		case -1:
-			spriteRenderer.sprite = spriteTwo;
-			break;
-		case 2:
-			spriteRenderer.sprite = spriteThree;
-			break;
-		case -2:
-			spriteRenderer.sprite = spriteFour;
-			break;
-		}
-	}
 
+	public abstract void ChangeSprite ();
 
 	// Check direction of movement, check if movement is blocked, move object
 	// --> Change 'direction' to native Vector2
